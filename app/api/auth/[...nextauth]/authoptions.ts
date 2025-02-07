@@ -1,4 +1,6 @@
 import CredentialsProvider from "next-auth/providers/credentials";
+import prisma from '../../../lib/prismadb'
+import bcrypt from 'bcrypt';
 
 export const authOptions = {
     providers: [
@@ -6,28 +8,44 @@ export const authOptions = {
             name: "Credentials",
             
             credentials: {
-              username: { label: "Username", type: "text", placeholder: "jsmith" },
+              email: { label: "email", type: "email", placeholder: "jsmith@gmail.com" },
               password: { label: "Password", type: "password" }
             },
+            //@ts-ignore
             async authorize(credentials, req) {
-              const users = [
-                { id: "1", name: "mans", email: "jsmith@example.com",password: "mans123" },
-                { id: "1", name: "mans1", email: "jsmith@example.com",password: "mans123" }
-              ]
-
-              const finduser = users.find((user)=> user.name === credentials?.username && user.password === credentials?.password)
-
-
-        
-              if (finduser) {
-                return finduser
-              } else {
-                return null
-        
+              
+              if (!credentials?.email || !credentials?.password) {
+                throw new Error('Username and password are required');
               }
+
+              const isUserExists = await prisma.user.findFirst({
+                where: {
+                  email: credentials?.email
+                },
+                select: {
+                  id: true,
+                  password: true,
+                  username: true
+                },
+              });
+
+              if (!isUserExists) {
+                throw new Error('you credentials are wrong')
+              } 
+
+              const isPasswordCorrect = await bcrypt.compare(credentials?.password,isUserExists?.password)
+
+              if (!isPasswordCorrect) {
+                throw new Error('you credentials are wrong')
+              } 
+              return {
+                id: isUserExists.id,
+                email: credentials.email,
+                username: isUserExists.username,
+              };
             }
           })
-    ],
-    secret:"hello"
+        ],
+    secret:process.env.NEXTAUTH_SECRET
   }
   
