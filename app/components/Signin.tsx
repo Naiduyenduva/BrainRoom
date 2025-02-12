@@ -14,7 +14,7 @@ export default function Signin () {
             email,
             password
         }) 
-        console.log(response.data)
+        console.log(response.data,"dya")
     }
 
     return (

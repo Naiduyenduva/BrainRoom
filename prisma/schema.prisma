@@ -18,4 +18,47 @@ model User {
   username  String  @unique
   email     String  @unique
   password  String
+  createdAt DateTime    @default(now())
+  updatedAt DateTime?    @updatedAt
+  attempts  Attempt[]   // Tracks which tests the user has attempted
+}
+
+model TestModel {
+  id          Int      @id @default(autoincrement())
+  category    String   // e.g., verbal_ability, numerical_ability
+  difficulty  String   // e.g., easy, medium, hard, premium
+  title       String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  mcqs        MCQ[]    // Multiple MCQs in a test
+  attempts    Attempt[] // Tracks which users have attempted this test
+}
+
+model MCQ {
+  id              Int      @id @default(autoincrement())
+  question        String
+  option1         String
+  option2         String
+  option3         String
+  option4         String
+  correctOption   Int      // 1, 2, 3, or 4 (representing the correct option)
+  testId          Int
+  test            TestModel @relation(fields: [testId], references: [id])
+
+  @@map("mcqs")
+}
+
+model Attempt {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  testId          Int
+  score           Int      // Number of correct answers
+  totalQuestions  Int      // Total number of questions in the test
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  user            User     @relation(fields: [userId], references: [id])
+  test            TestModel @relation(fields: [testId], references: [id])
+
+  @@unique([userId, testId]) // Ensure a user can attempt a test only once
 }
