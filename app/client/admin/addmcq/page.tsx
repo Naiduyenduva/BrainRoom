@@ -1,4 +1,4 @@
-import AddProblem from '../../components/admin/AddProblem'
+import AddProblem from '../../../components/admin/AddQuestion'
 
  const Admin = () => {
     return <div>
