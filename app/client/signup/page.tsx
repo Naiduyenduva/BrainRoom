@@ -1,10 +1,10 @@
-import Signin from '../../components/Signin'
+import Signup from '../../components/user/Signup'
 
 
 export default function () {
     return (
         <div>
-            <Signin />
+            <Signup />
         </div>
     )
 }

@@ -2,19 +2,25 @@
 import axios from "axios"
 import { useState } from "react"
 
-export default function Signin () {
+export default function SignUp () {
     const [username, setUsername] = useState("");
     const [password, setPaassword] = useState("");
     const [email, setEmail] = useState("");
 
 
     async function handleSubmit () {
-        const response = await axios.post("http://localhost:3000/api/auth/signup",{
-            username,
-            email,
-            password
-        }) 
-        console.log(response.data,"dya")
+        try {
+            const response = await axios.post("http://localhost:3000/api/auth/signup",{
+                username,
+                email,
+                password
+            }) 
+            alert("created")
+            console.log(response.data,"dya")
+            
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
