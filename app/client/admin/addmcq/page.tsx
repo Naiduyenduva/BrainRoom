@@ -1,4 +1,4 @@
-import AddProblem from '../../../components/admin/AddQuestion'
+import AddProblem from '../../../components/AddQuestion'
 
  const Admin = () => {
     return <div>
@@ -6,4 +6,4 @@ import AddProblem from '../../../components/admin/AddQuestion'
     </div>
 }
 
-export default Admin
+export default Admin;

@@ -19,7 +19,7 @@ import { useToast } from "@/hooks/use-toast"
         description
        })
        toast({
-        title: "test created successfull"
+        title: "test created successfully"
        })
        console.log(response.data)
     }

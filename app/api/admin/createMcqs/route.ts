@@ -22,7 +22,7 @@ export async function POST (req:NextRequest) {
             }
         });
 
-        return NextResponse.json({ message: "MCQ Added" },{ status: 201 });
+        return NextResponse.json({ message: "MCQ Added",newMCQ },{ status: 201 });
 
     } catch (error) {
         return NextResponse.json({ message: "Internal server error",error }, { status: 500});

@@ -1,4 +1,4 @@
-import CreateTest from "@/app/components/admin/CreateTest"
+import CreateTest from "@/app/components/CreateTest"
 
 const Createtest = () => {
     return <div>
