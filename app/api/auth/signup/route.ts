@@ -5,11 +5,11 @@ import bcrypt from 'bcrypt';
 
 export async function POST (req:NextRequest) {
     try {
-    const body = await req.json();
+    const { username, password, email} = await req.json();
     
     const existingUser = await prisma.user.findFirst({
         where: {
-            email: body.email
+            email: email
         }
     })
     
@@ -19,12 +19,12 @@ export async function POST (req:NextRequest) {
             { status: 400 }
         );
     }
-    const hashedpass = await bcrypt.hash(body.password,10);
+    const hashedpass = await bcrypt.hash(password,10);
 
         const userdata = await prisma.user.create({
             data: {
-                username: body.username,
-                email: body.email,
+                username: username,
+                email: email,
                 password: hashedpass
             }
         })
