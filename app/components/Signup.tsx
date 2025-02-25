@@ -2,7 +2,7 @@
 import axios from "axios"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
-
+import { useRouter } from "next/navigation"
 
 export default function SignUp () {
     const {toast} = useToast();
@@ -10,6 +10,7 @@ export default function SignUp () {
     const [password, setPaassword] = useState("");
     const [email, setEmail] = useState("");
     const [success,setSuccess] = useState(false);
+    const router = useRouter();
 
 
     async function handleSubmit () {
@@ -25,6 +26,7 @@ export default function SignUp () {
               })
             setSuccess(true)
             console.log(response.data)
+            router.push("/api/auth/signin");
             
         } catch (error) {
             console.log(error)

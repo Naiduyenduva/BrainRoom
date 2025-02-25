@@ -15,7 +15,7 @@ interface TestProps {
 
     async function handleTests () {
         try {
-            const response = await axios.get("http://localhost:3001/api/exams");
+            const response = await axios.get("http://localhost:3000/api/exams");
             const Testdata = await response.data;
             console.log(Testdata)
             setTests(Testdata.tests)
@@ -28,7 +28,7 @@ interface TestProps {
         handleTests();
     },[])
     return (
-        <div className="p-10 bg-black h-screen text-white">
+        <div className="p-10 h-screen">
             <h1 className="mb-5 font-bold text-3xl">Available Tests</h1>
             <h1 className="mb-5 text-xl text-gray-400">Choose from our selection of professional exams to test and certify your skills.</h1>
             <div className="flex gap-10">

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast"
-
+import { Input } from "@/components/ui/input"
 
  const CreateTest = () => {
     const {toast} = useToast();
@@ -24,13 +24,15 @@ import { useToast } from "@/hooks/use-toast"
        console.log(response.data)
     }
 
-    return <div>
-        <h1>Adding Test</h1>
-        <input placeholder="catogery" className="p-1 rounded-xl" onChange={(e)=> {setcategory(e.target.value)}} />
-        <input placeholder="difficulty" className="p-1 rounded-xl" onChange={(e)=> {setDifficulty(e.target.value)}} />
-        <input placeholder="title" className="p-1 rounded-xl" onChange={(e)=> {setTitle(e.target.value)}} />
-        <input placeholder="description" className="p-1 rounded-xl" onChange={(e)=> {setDescription(e.target.value)}} />
-        <button className="bg-blue-700 p-2 rounded-xl text-white" onClick={handleSubmit}>CreateTest</button>
+    return <div className="grid justify-center items-center">
+        <h1 className="text-center font-bold mt-10 text-2xl">Adding Test</h1>
+        <div className="grid gap-2 w-96 mb-4 mt-4">
+            <Input placeholder="catogery" className="p-1 rounded-lg" onChange={(e)=>{setcategory(e.target.value)}} />
+            <Input placeholder="difficulty" className="p-1 rounded-lg" onChange={(e)=>{setDifficulty(e.target.value)}} />
+            <Input placeholder="title" className="p-1 rounded-lg" onChange={(e)=>{setTitle(e.target.value)}} />
+            <Input placeholder="description" className="p-1 rounded-lg" onChange={(e)=>{setDescription(e.target.value)}} />
+        </div>
+        <button className="bg-purple-600 p-1 h-8 rounded-xl text-white" onClick={handleSubmit}>CreateTest</button>
     </div>
 }
 
