@@ -5,7 +5,7 @@ import Sidebar from "./Sidebar";
 import Tests from "./Tests";
 import UserResults from "./UserResults";
 const Dashboard = () => {
-    const [istrue, setIstrue ] = useState(false)
+    const [istrue, setIstrue ] = useState(true)
     return (
         <div className="flex h-screen">
             <div className="w-1/5 border-r border-purple-900">
