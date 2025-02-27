@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { setIsTrue } from "../redux/isTrueSlice";
 
-
 const Sidebar = () => {
   const isTrue = useAppSelector((state:any) => state.isTrue.value);
   const dispatch = useAppDispatch();
@@ -17,6 +16,7 @@ const Sidebar = () => {
     dispatch(setIsTrue(true));
     router.push("/");
   }
+
   return (
     <div className="grid gap-10 p-5">
       <div>
@@ -32,4 +32,4 @@ const Sidebar = () => {
   )
 }
 
-export default Sidebar
+export default Sidebar;
