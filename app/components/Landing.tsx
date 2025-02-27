@@ -1,5 +1,6 @@
 "use client"
 import { useRouter } from "next/navigation"
+
 const Landing = () => {
   const router = useRouter();
 
