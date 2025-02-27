@@ -6,7 +6,6 @@ const Landing = () => {
 
   function handleExplore () {
       router.push("/client/dashboard")
-      console.log("clicked")
   }
 
   return (
