@@ -1,11 +1,20 @@
 "use client"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface IsTrueState {
-  value: boolean;
+interface Question {
+  id: string;
+  question: string;
+  options: string[];
+  correctAnswer: string;
 }
 
-const initialState: IsTrueState = { value: true };
+interface IsTrueState {
+  value: boolean;
+  testId: string | null;
+  questions: Question[];
+}
+
+const initialState: IsTrueState = { value: true, testId: null, questions: [] };
 
 const isTrueSlice = createSlice({
   name: "isTrue",
@@ -17,8 +26,14 @@ const isTrueSlice = createSlice({
     toggleIsTrue: (state) => {
       state.value = !state.value;
     },
+    setTestId: (state,action: PayloadAction<string>)=> {
+      state.testId = action.payload;
+    },
+    setQuestions: (state, action: PayloadAction<Question[]>) => {
+      state.questions = action.payload;
+    },
   },
 });
 
-export const { setIsTrue, toggleIsTrue } = isTrueSlice.actions;
+export const { setIsTrue, toggleIsTrue, setTestId, setQuestions } = isTrueSlice.actions;
 export default isTrueSlice.reducer;

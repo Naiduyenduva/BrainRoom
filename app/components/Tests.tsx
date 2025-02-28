@@ -4,6 +4,9 @@ import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useDispatch, UseDispatch } from "react-redux";
+import { setTestId } from "../redux/isTrueSlice";
+import { useRouter } from "next/navigation";
 
 interface TestProps {
     id:number,
@@ -44,6 +47,8 @@ interface TestProps {
         handleTests();
     },[])
     
+   
+
     return (
         <div className="p-10 h-screen">
             <h1 className="mb-5 font-bold text-3xl">Available Tests</h1>
@@ -60,8 +65,16 @@ interface TestProps {
     )
 }
 
+
 function TestCard({ test, getDifficultyColor }:any) {
-  
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+
+  function handletestid(id:string) {
+    dispatch(setTestId(id))
+    router.push("/client/mcq")
+  }
     return (
       <Card className="h-full flex flex-col transition-all duration-200 hover:shadow-md bg-black border border-purple-600">
         <CardHeader>
@@ -80,7 +93,7 @@ function TestCard({ test, getDifficultyColor }:any) {
         </CardContent>
         <CardFooter className="flex justify-between">
           <span className="font-bold text-lg text-white">Free</span>
-          <Button className="bg-purple-600">Take Test</Button>
+          <Button className="bg-purple-600" onClick={()=> {handletestid(test.id)}}>Take Test</Button>
         </CardFooter>
       </Card>
     )

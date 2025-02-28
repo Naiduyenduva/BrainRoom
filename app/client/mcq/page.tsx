@@ -1,10 +1,10 @@
-import QuestionCard from '@/app/components/QuestionCard'
+import AllQuestions from '@/app/components/AllQuestions'
 import React from 'react'
 
 const page = () => {
   return (
     <div className='mt-10'>
-        <QuestionCard />
+        <AllQuestions />
     </div>
   )
 }

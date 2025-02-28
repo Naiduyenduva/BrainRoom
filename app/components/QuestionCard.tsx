@@ -1,5 +1,4 @@
 "use client"
-
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
@@ -7,30 +6,27 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, ArrowRight, Clock } from "lucide-react"
 
+interface Question {
+  id: string;
+  question: string;
+  options: string[];
+  correctAnswer: string;
+}
+
 interface QuestionCardProps {
-  questionNumber: number
-  totalQuestions: number
-  question: string
-  options: string[]
-  onAnswer: (answer: string) => void
-  onNext: () => void
-  onPrevious: () => void
-  timeRemaining: number
+  questionsArray: Question[];
+  onAnswer: (answer: string) => void;
+  timeRemaining?: number;
 }
 
 export default function QuestionCard({
-  questionNumber = 1,
-  totalQuestions = 50,
-  question = "Samu needs 40% to pass. If he scores 190 marks but still falls short by 10 marks, then what is the maximum number of marks he could have scored?",
-  options = ["400", "500", "450", "550"],
-  onAnswer = () => {},
-  onNext = () => {},
-  onPrevious = () => {},
-  timeRemaining = 3600, // 1 hour in seconds
-}: Partial<QuestionCardProps>) {
+  questionsArray,
+  onAnswer,
+  timeRemaining = 3600, // Default: 1 hour in seconds
+}: QuestionCardProps) {
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
-  const [isMarkedForReview, setIsMarkedForReview] = useState(false)
   const [remainingTime, setRemainingTime] = useState(timeRemaining)
+  const [page, setPage] = useState<number>(0) // ✅ 0-based indexing
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -52,40 +48,50 @@ export default function QuestionCard({
     onAnswer(value)
   }
 
+  const nextPage = () => {
+    if (page < questionsArray.length - 1) setPage(page + 1)
+  }
+
+  const prevPage = () => {
+    if (page > 0) setPage(page - 1)
+  }
+
+  const currentQuestion = questionsArray[page] // ✅ Get the current question
+
   return (
-    <Card className="w-full max-w-2xl mx-auto bg-black text-white">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <div className="flex items-center space-x-2">
-          <CardTitle>
-            Question {questionNumber} of {totalQuestions}
-          </CardTitle>
-        </div>
-        <div className="flex items-center space-x-2 text-muted-foreground">
-          <Clock className="h-4 w-4" />
-          <span>{formatTime(remainingTime)}</span>
-        </div>
-      </CardHeader>
-      <CardContent className="pt-4">
-        <p className="text-lg font-medium mb-6">{question}</p>
-        <RadioGroup onValueChange={handleAnswerChange} className="space-y-3">
-          {options.map((option, index) => (
-            <div key={index} className="flex items-center space-x-2 rounded-lg border p-4 hover:bg-gray-900">
-              <RadioGroupItem value={option} id={`option-${index}`} />
-              <Label htmlFor={`option-${index}`} className="flex-grow cursor-pointer">
-                {option}
-              </Label>
+    <>
+      {currentQuestion && (
+        <Card className="w-full max-w-2xl mx-auto bg-black text-white" key={currentQuestion.id}>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle>Question {page + 1} of {questionsArray.length}</CardTitle>
+            <div className="flex items-center space-x-2 text-muted-foreground">
+              <Clock className="h-4 w-4" />
+              <span>{formatTime(remainingTime)}</span>
             </div>
-          ))}
-        </RadioGroup>
-      </CardContent>
-      <CardFooter className="flex justify-between items-center">
-          <Button className="pt-2 mt-1 border text-white" onClick={onPrevious} disabled={questionNumber === 1}>
-            <ArrowLeft className="h-4 w-4 mr-2" /> Previous
-          </Button>
-          <Button className="bg-purple-600" onClick={onNext} disabled={questionNumber === totalQuestions}>
-            Next <ArrowRight className="h-4 w-4 ml-2" />
-          </Button>
-      </CardFooter>
-    </Card>
+          </CardHeader>
+          <CardContent className="pt-4">
+            <p className="text-lg font-medium mb-6">{currentQuestion.question}</p>
+            <RadioGroup onValueChange={handleAnswerChange} className="space-y-3">
+              {currentQuestion.options.map((option, index) => (
+                <div key={index} className="flex items-center space-x-2 rounded-lg border p-4 hover:bg-gray-900">
+                  <RadioGroupItem value={option} id={`option-${index}`} />
+                  <Label htmlFor={`option-${index}`} className="flex-grow cursor-pointer">
+                    {option}
+                  </Label>
+                </div>
+              ))}
+            </RadioGroup>
+          </CardContent>
+          <CardFooter className="flex justify-between items-center">
+            <Button className="pt-2 mt-1 border text-white" onClick={prevPage} disabled={page === 0}>
+              <ArrowLeft className="h-4 w-4 mr-2" /> Previous
+            </Button>
+            <Button className="bg-purple-600" onClick={nextPage} disabled={page === questionsArray.length - 1}>
+              Next <ArrowRight className="h-4 w-4 ml-2" />
+            </Button>
+          </CardFooter>
+        </Card>
+      )}
+    </>
   )
 }
