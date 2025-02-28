@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST (req:NextRequest) {
     try {
-        const { testId, question, options, answer } = await req.json();
+        const { testId, question, options, correctOption } = await req.json();
 
         const test = await prisma.testModel.findUnique({
             where: {
@@ -18,7 +18,7 @@ export async function POST (req:NextRequest) {
                 testId,
                 question,
                 options,
-                correctOption: answer
+                correctOption
             }
         });
 

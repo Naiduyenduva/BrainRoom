@@ -21,8 +21,8 @@ interface QuestionCardProps {
 export default function QuestionCard({
   questionNumber = 1,
   totalQuestions = 50,
-  question = "What is the capital of France?",
-  options = ["London", "Berlin", "Paris", "Madrid"],
+  question = "Samu needs 40% to pass. If he scores 190 marks but still falls short by 10 marks, then what is the maximum number of marks he could have scored?",
+  options = ["400", "500", "450", "550"],
   onAnswer = () => {},
   onNext = () => {},
   onPrevious = () => {},
