@@ -6,15 +6,17 @@ import { useEffect, useState } from "react";
 import QuestionCard from "./QuestionCard";
 import { setQuestions } from "../redux/isTrueSlice";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const AllQuestions = () => {
     const testId = useAppSelector((state:any) => state.isTrue.testId);
     const questionsArray = useAppSelector((state:any) => state.isTrue.questions);
-    const [answers, setAnswers] = useState<{questionId:string,selectedOption:string}[]>([]);
+    const [answers, setAnswers] = useState<{questionId:string,selectedOption:number}[]>([]);
     const dispatch = useAppDispatch();
     const [ count, setCount ] = useState();
     const {data: session} = useSession();
     const userId = session?.user.id;
+    const router = useRouter();
 
     
     async function handleQuestions () {
@@ -35,14 +37,14 @@ const AllQuestions = () => {
     },[testId])
 
 
-    function handleanswer (questionId:string, selectedOption:string) {
+    function handleanswer (questionId:string, selectedOption:number) {
         setAnswers((prevAnswers)=> {
             const existingAnswerIndex = prevAnswers.findIndex((ans) => ans.questionId === questionId);
 
             if (existingAnswerIndex !== -1) {
                 // Update existing answer
                 const updatedAnswers = [...prevAnswers];
-                updatedAnswers[existingAnswerIndex] = { questionId, selectedOption };
+                updatedAnswers[existingAnswerIndex] = { questionId, selectedOption};
                 return updatedAnswers;
               } else {
                 // Add new answer
@@ -59,7 +61,7 @@ const AllQuestions = () => {
                     testId,
                     answers
                 })
-                console.log(response);
+                router.push("/client/result")
             } catch (error) {
                 console.log(error)
             }

@@ -15,7 +15,7 @@ interface Question {
 
 interface QuestionCardProps {
   questionsArray: Question[];
-  onAnswer: (questionId: string,selectedOption:string) => void;
+  onAnswer: (questionId: string,selectedOption:number) => void;
   onSubmit: ()=> void;
   timeRemaining?: number;
 }
@@ -28,7 +28,7 @@ export default function QuestionCard({
 }: QuestionCardProps) {
   const [remainingTime, setRemainingTime] = useState(timeRemaining)
   const [page, setPage] = useState<number>(0) // ✅ 0-based indexing
-  const [selectedAnswers, setSelectedAnswers] = useState<{ [key: string]: string }>({}); // Store answers
+  const [selectedAnswers, setSelectedAnswers] = useState<{ [key: string]: number }>({}); // Store answers
 
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function QuestionCard({
     return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`
   }
 
-  const handleAnswerChange = (value:string) => {
+  const handleAnswerChange = (value:number) => {
     const currentQuestion = questionsArray[page];
     if (currentQuestion) {
       const selectedIndex = value; // Convert to 1-based index
@@ -81,7 +81,7 @@ export default function QuestionCard({
           </CardHeader>
           <CardContent className="pt-4">
             <p className="text-lg font-medium mb-6">{currentQuestion.question}</p>
-            <RadioGroup onValueChange={(value)=>handleAnswerChange(value)} value={selectedAnswers[currentQuestion.id] || ""} className="space-y-3">
+            <RadioGroup onValueChange={(value)=>handleAnswerChange(Number(value))} value={selectedAnswers[currentQuestion.id]?.toString() ?? undefined} className="space-y-3">
               {currentQuestion.options.map((option, index) => (
                 <div key={index} className="flex items-center space-x-2 rounded-lg border p-4 hover:bg-gray-900">
                   <RadioGroupItem value={(index+1).toString()} id={`option-${index}`} />
