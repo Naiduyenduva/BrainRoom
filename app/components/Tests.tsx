@@ -4,9 +4,12 @@ import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useDispatch, UseDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setTestId } from "../redux/isTrueSlice";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "../redux/store";
+import { useSession } from "next-auth/react";
+import { useToast } from "@/hooks/use-toast";
 
 interface TestProps {
     id:number,
@@ -19,6 +22,7 @@ interface TestProps {
  const Tests = () => {
     const [ tests, setTests ] = useState<TestProps[]>([]);
     const [ err, setErr ] = useState("");
+    
 
     const getDifficultyColor = (difficulty:string) => {
         switch (difficulty) {
@@ -69,11 +73,28 @@ interface TestProps {
 function TestCard({ test, getDifficultyColor }:any) {
   const dispatch = useDispatch();
   const router = useRouter();
+  const {data: session} = useSession();
+  const userId = session?.user.id
+  const {toast} = useToast();
 
 
-  function handletestid(id:string) {
-    dispatch(setTestId(id))
-    router.push("/client/mcq")
+  function handletestid (id:string) {
+  }
+  
+  async function handleAttempt(id:string) {
+    try {
+      const testId = id
+      const response = await axios.post("http://localhost:3000/api/exams/attemptsStart",{
+        userId,
+        testId
+      })
+      dispatch(setTestId(id))
+      console.log(response)
+      toast({title:"attempt started"})
+      router.push("/client/mcq")
+    } catch (error) {
+      console.log(error)
+    }
   }
     return (
       <Card className="h-full flex flex-col transition-all duration-200 hover:shadow-md bg-black border border-purple-600">
@@ -93,7 +114,7 @@ function TestCard({ test, getDifficultyColor }:any) {
         </CardContent>
         <CardFooter className="flex justify-between">
           <span className="font-bold text-lg text-white">Free</span>
-          <Button className="bg-purple-600" onClick={()=> {handletestid(test.id)}}>Take Test</Button>
+          <Button className="bg-purple-600" onClick={()=> {handleAttempt(test.id)}}>Take Test</Button>
         </CardFooter>
       </Card>
     )

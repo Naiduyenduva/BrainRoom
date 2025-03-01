@@ -5,13 +5,16 @@ import { useAppDispatch, useAppSelector } from "../redux/store";
 import { useEffect, useState } from "react";
 import QuestionCard from "./QuestionCard";
 import { setQuestions } from "../redux/isTrueSlice";
+import { useSession } from "next-auth/react";
 
 const AllQuestions = () => {
     const testId = useAppSelector((state:any) => state.isTrue.testId);
     const questionsArray = useAppSelector((state:any) => state.isTrue.questions);
-    const [userAnswer, setUserAnswer] = useState<{questionId:string,optionId:string}[]>([]);
+    const [answers, setAnswers] = useState<{questionId:string,selectedOption:string}[]>([]);
     const dispatch = useAppDispatch();
     const [ count, setCount ] = useState();
+    const {data: session} = useSession();
+    const userId = session?.user.id;
 
     
     async function handleQuestions () {
@@ -32,30 +35,33 @@ const AllQuestions = () => {
     },[testId])
 
 
-    function handleanswer (questionId:string, optionId:string) {
-        setUserAnswer((prevAnswers)=> {
+    function handleanswer (questionId:string, selectedOption:string) {
+        setAnswers((prevAnswers)=> {
             const existingAnswerIndex = prevAnswers.findIndex((ans) => ans.questionId === questionId);
 
             if (existingAnswerIndex !== -1) {
                 // Update existing answer
                 const updatedAnswers = [...prevAnswers];
-                updatedAnswers[existingAnswerIndex] = { questionId, optionId };
+                updatedAnswers[existingAnswerIndex] = { questionId, selectedOption };
                 return updatedAnswers;
               } else {
                 // Add new answer
-                return [...prevAnswers, { questionId, optionId }];
+                return [...prevAnswers, { questionId, selectedOption }];
               }
             })
         }
-        console.log(userAnswer)
+        console.log(answers)
 
         async function handleSubmit () {
             try {
                 const response = await axios.post("http://localhost:3000/api/exams/attemptSubmit",{
-                    userAnswer
+                    userId,
+                    testId,
+                    answers
                 })
+                console.log(response);
             } catch (error) {
-                
+                console.log(error)
             }
         }
 

@@ -1,6 +1,4 @@
 "use client"
-
-import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Tests from "./Tests";
 import UserResults from "./UserResults";

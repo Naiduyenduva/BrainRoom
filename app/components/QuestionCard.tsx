@@ -15,7 +15,7 @@ interface Question {
 
 interface QuestionCardProps {
   questionsArray: Question[];
-  onAnswer: (questionId: string,optionId:string) => void;
+  onAnswer: (questionId: string,selectedOption:string) => void;
   onSubmit: ()=> void;
   timeRemaining?: number;
 }

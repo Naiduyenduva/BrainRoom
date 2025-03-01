@@ -5,7 +5,10 @@ export async function POST (req:NextRequest) {
         const { userId, testId, answers } = await req.json();
 
         const questions = await prisma.mCQ.findMany ({ where: { testId },select: { id:true,correctOption:true }})
-
+        console.log(questions)
+        if(!questions) {
+            return NextResponse.json({message:"no questions"},{status:404})
+        }
         let score = 0;
         questions.forEach((question) => {
             const userAnswer = answers.find((ans:any) => ans.questionId === question.id)

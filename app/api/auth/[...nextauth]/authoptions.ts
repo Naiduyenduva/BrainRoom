@@ -3,7 +3,6 @@ import prisma from '../../../lib/prismadb'
 import bcrypt from 'bcrypt';
 import { Session } from "next-auth";
 import { JWT } from "next-auth/jwt";
-import { NextAuthOptions } from "next-auth";
 import { DefaultSession, DefaultUser } from "next-auth";
 import { User } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
@@ -37,7 +36,7 @@ interface UserType {
   password?: string; // Password should not be exposed in session
 }
 
-export const authOptions: NextAuthOptions = {
+export const authOptions = {
     providers: [
         CredentialsProvider({
             name: "Credentials",
