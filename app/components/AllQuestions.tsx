@@ -9,12 +9,10 @@ import { setQuestions } from "../redux/isTrueSlice";
 const AllQuestions = () => {
     const testId = useAppSelector((state:any) => state.isTrue.testId);
     const questionsArray = useAppSelector((state:any) => state.isTrue.questions);
+    const [userAnswer, setUserAnswer] = useState<{questionId:string,optionId:string}[]>([]);
     const dispatch = useAppDispatch();
     const [ count, setCount ] = useState();
 
-    function handleanswer () {
-        
-    }
     
     async function handleQuestions () {
         try {
@@ -32,10 +30,39 @@ const AllQuestions = () => {
     useEffect(()=> {
         handleQuestions();
     },[testId])
+
+
+    function handleanswer (questionId:string, optionId:string) {
+        setUserAnswer((prevAnswers)=> {
+            const existingAnswerIndex = prevAnswers.findIndex((ans) => ans.questionId === questionId);
+
+            if (existingAnswerIndex !== -1) {
+                // Update existing answer
+                const updatedAnswers = [...prevAnswers];
+                updatedAnswers[existingAnswerIndex] = { questionId, optionId };
+                return updatedAnswers;
+              } else {
+                // Add new answer
+                return [...prevAnswers, { questionId, optionId }];
+              }
+            })
+        }
+        console.log(userAnswer)
+
+        async function handleSubmit () {
+            try {
+                const response = await axios.post("http://localhost:3000/api/exams/attemptSubmit",{
+                    userAnswer
+                })
+            } catch (error) {
+                
+            }
+        }
+
   return (
     <div>
         {
-            count==0 ? <h1>no questions found</h1> : <QuestionCard onAnswer={handleanswer} timeRemaining={1800} questionsArray={questionsArray} />
+            count==0 ? <h1>no questions found</h1> : <QuestionCard onAnswer={handleanswer} onSubmit={handleSubmit} timeRemaining={1800} questionsArray={questionsArray} />
         }  
     </div>
   )

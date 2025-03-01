@@ -15,18 +15,21 @@ interface Question {
 
 interface QuestionCardProps {
   questionsArray: Question[];
-  onAnswer: (answer: string) => void;
+  onAnswer: (questionId: string,optionId:string) => void;
+  onSubmit: ()=> void;
   timeRemaining?: number;
 }
 
 export default function QuestionCard({
   questionsArray,
   onAnswer,
+  onSubmit,
   timeRemaining = 3600, // Default: 1 hour in seconds
 }: QuestionCardProps) {
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
   const [remainingTime, setRemainingTime] = useState(timeRemaining)
   const [page, setPage] = useState<number>(0) // ✅ 0-based indexing
+  const [selectedAnswers, setSelectedAnswers] = useState<{ [key: string]: string }>({}); // Store answers
+
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -43,9 +46,16 @@ export default function QuestionCard({
     return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`
   }
 
-  const handleAnswerChange = (value: string) => {
-    setSelectedAnswer(value)
-    onAnswer(value)
+  const handleAnswerChange = (value:string) => {
+    const currentQuestion = questionsArray[page];
+    if (currentQuestion) {
+      const selectedIndex = value; // Convert to 1-based index
+      setSelectedAnswers((prev) => ({
+        ...prev,
+        [currentQuestion.id]: selectedIndex, // Store answer per question
+      }));
+      onAnswer(currentQuestion.id, (value));
+    }
   }
 
   const nextPage = () => {
@@ -71,10 +81,10 @@ export default function QuestionCard({
           </CardHeader>
           <CardContent className="pt-4">
             <p className="text-lg font-medium mb-6">{currentQuestion.question}</p>
-            <RadioGroup onValueChange={handleAnswerChange} className="space-y-3">
+            <RadioGroup onValueChange={(value)=>handleAnswerChange(value)} value={selectedAnswers[currentQuestion.id] || ""} className="space-y-3">
               {currentQuestion.options.map((option, index) => (
                 <div key={index} className="flex items-center space-x-2 rounded-lg border p-4 hover:bg-gray-900">
-                  <RadioGroupItem value={option} id={`option-${index}`} />
+                  <RadioGroupItem value={(index+1).toString()} id={`option-${index}`} />
                   <Label htmlFor={`option-${index}`} className="flex-grow cursor-pointer">
                     {option}
                   </Label>
@@ -86,9 +96,18 @@ export default function QuestionCard({
             <Button className="pt-2 mt-1 border text-white" onClick={prevPage} disabled={page === 0}>
               <ArrowLeft className="h-4 w-4 mr-2" /> Previous
             </Button>
-            <Button className="bg-purple-600" onClick={nextPage} disabled={page === questionsArray.length - 1}>
+            {page === questionsArray.length - 1 ? (
+              <Button className="bg-green-600" onClick={onSubmit}>
+                Submit
+              </Button>
+            ) : (
+              <Button className="bg-purple-600" onClick={nextPage}>
+                Next <ArrowRight className="h-4 w-4 ml-2" />
+              </Button>
+            )}
+            {/* <Button className="bg-purple-600" onClick={nextPage} disabled={page === questionsArray.length - 1}>
               Next <ArrowRight className="h-4 w-4 ml-2" />
-            </Button>
+            </Button> */}
           </CardFooter>
         </Card>
       )}

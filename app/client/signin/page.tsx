@@ -2,6 +2,7 @@
 import { Input } from "@/components/ui/input"
 import { signIn } from "next-auth/react";
 import { useState } from "react"
+import { Button } from "@/components/ui/button";
 
 const page = () => {
     const [ email, setEmail ] = useState("");
@@ -16,10 +17,11 @@ const page = () => {
         })
     }
   return (
-    <div className="grid gap-2 p-5 justify-center">
-        <Input placeholder="Email" onChange={(e)=>setEmail(e.target.value)} />
+    <div className="grid gap-2 p-5 justify-center pt-40">
+        <h1 className="text-center text-2xl text-hite">Signin</h1>
+        <Input placeholder="Email" className="w-96" onChange={(e)=>setEmail(e.target.value)} />
         <Input placeholder="Password" onChange={(e)=>setPassword(e.target.value)} />
-        <button className="bg-purple-600 p-2 rounded-lg" onClick={onSubmit}>Login</button>
+        <Button className="bg-purple-600 p-2 rounded-lg" onClick={onSubmit}>Login</Button>
     </div>
   )
 }
