@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { CircleCheck } from "lucide-react"
 
   function SignUp () {
     const {toast} = useToast();
@@ -22,6 +23,7 @@ import { Button } from "@/components/ui/button"
                 password
             }) 
             toast({
+                action: <CircleCheck />,
                 title: "Signed up successfully",
                 className: "text-green-500"
               })

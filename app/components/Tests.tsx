@@ -9,6 +9,8 @@ import { setTestId } from "../redux/isTrueSlice";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks/use-toast";
+import { CircleCheck } from 'lucide-react';
+
 
 interface TestProps {
     id:number,
@@ -79,7 +81,7 @@ interface TestProps {
           testId
         })
         dispatch(setTestId(id))
-        toast({title:"attempt started"})
+        toast({action: <CircleCheck color="green" />,title:"Attempt Started"})
         router.push("/client/mcq")
       } catch (error) {
         console.log(error)
