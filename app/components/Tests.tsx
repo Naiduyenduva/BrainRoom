@@ -39,7 +39,7 @@ interface TestProps {
 
     async function handleTests () {
         try {
-            const response = await axios.get("http://localhost:3000/api/exams");
+            const response = await axios.get("/api/exams");
             const Testdata = await response.data;
             setTests(Testdata.tests)
         } catch (error) {
@@ -52,10 +52,10 @@ interface TestProps {
     },[])
 
     return (
-        <div className="p-10 h-screen">
-            <h1 className="mb-5 font-bold text-3xl">Available Tests</h1>
-            <h1 className="mb-5 text-xl text-gray-400">Choose from our selection of professional exams to test and certify your skills.</h1>
-            <div className="flex flex-wrap gap-10">
+        <div className="sm:p-10 p-8 h-screen">
+            <h1 className="mb-5 font-bold text-xl sm:text-3xl">Available Tests</h1>
+            <h1 className="mb-5 text-md sm:text-xl text-gray-400">Choose from our selection of professional exams to test and certify your skills.</h1>
+            <div className="grid sm:flex flex-wrap gap-10">
             {
                 tests.map((test)=> (
                     <TestCard key={test.id} test={test} getDifficultyColor={getDifficultyColor} />
@@ -76,7 +76,7 @@ interface TestProps {
     async function handleAttempt(id:string) {
       try {
         const testId = id
-        const response = await axios.post("http://localhost:3000/api/exams/attemptsStart",{
+        const response = await axios.post("/api/exams/attemptsStart",{
           userId,
           testId
         })

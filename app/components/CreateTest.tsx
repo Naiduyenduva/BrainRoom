@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
     const [ description, setDescription ] = useState("");
 
     const handleSubmit = async () => {
-       const response = await axios.post("http://localhost:3000/api/admin/createtest",{
+       const response = await axios.post("/api/admin/createtest",{
         category,
         difficulty,
         title,

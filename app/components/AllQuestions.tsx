@@ -20,7 +20,7 @@ const AllQuestions = () => {
     
     async function handleQuestions () {
         try {
-            const response = await axios.post("http://localhost:3000/api/exams/allmcqs",{
+            const response = await axios.post("/api/exams/allmcqs",{
                 testId,
             })
             const questions = response.data;
@@ -54,7 +54,7 @@ const AllQuestions = () => {
 
     async function handleSubmit () {
         try {
-            const response = await axios.post("http://localhost:3000/api/exams/attemptSubmit",{
+            const response = await axios.post("/api/exams/attemptSubmit",{
                 userId,
                 testId,
                 answers

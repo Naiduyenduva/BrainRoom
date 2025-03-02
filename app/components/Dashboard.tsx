@@ -7,11 +7,11 @@ import { useAppSelector } from "../redux/store";
 const Dashboard = () => {
     const isTrue = useAppSelector((state:any) => state.isTrue.value);
     return (
-        <div className="flex h-screen">
-            <div className="w-1/5 border-r border-purple-900">
+        <div className="sm:flex h-screen">
+            <div className="sm:w-1/5 sm:border-r sm:border-purple-900">
                 <Sidebar />
             </div>
-            <div className="w-4/5">
+            <div className="sm:w-4/5">
             {
                 isTrue ? <Tests /> : <UserResults />
             }

@@ -13,7 +13,7 @@ const UserResults = () => {
   async function handleResults () {
     try {
       const userId = session?.user.id;
-        const response = await axios.post("http://localhost:3000/api/exams/results",{
+        const response = await axios.post("/api/exams/results",{
           userId
         })  
         const results = response.data.results;
@@ -29,7 +29,7 @@ const UserResults = () => {
 
   return (
     <div className='p-10'>
-      <div className='grid grid-cols-3 gap-5'>
+      <div className='grid sm:grid-cols-3 gap-5'>
         <ResultCard data={resultsData} />
       </div>
     </div>

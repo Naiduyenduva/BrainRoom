@@ -19,8 +19,8 @@ const page = () => {
 
   return (
     <div className="grid gap-2 p-5 justify-center pt-40">
-        <h1 className="text-center text-2xl text-hite">Signin</h1>
-        <Input placeholder="Email" className="w-96" onChange={(e)=>setEmail(e.target.value)} />
+        <h1 className="text-center text-2xl text-hite">Login</h1>
+        <Input placeholder="Email" className="w-72 sm:w-96" onChange={(e)=>setEmail(e.target.value)} />
         <Input placeholder="Password" onChange={(e)=>setPassword(e.target.value)} />
         <Button className="bg-purple-600 p-2 rounded-lg" onClick={onSubmit}>Login</Button>
     </div>

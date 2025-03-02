@@ -65,7 +65,7 @@ export default function QuestionCard({
     if (page > 0) setPage(page - 1)
   }
 
-  const currentQuestion = questionsArray[page] // ✅ Get the current question
+  const currentQuestion = questionsArray[page]
 
   return (
     <>
@@ -104,9 +104,6 @@ export default function QuestionCard({
                 Next <ArrowRight className="h-4 w-4 ml-2" />
               </Button>
             )}
-            {/* <Button className="bg-purple-600" onClick={nextPage} disabled={page === questionsArray.length - 1}>
-              Next <ArrowRight className="h-4 w-4 ml-2" />
-            </Button> */}
           </CardFooter>
         </Card>
       )}
