@@ -19,7 +19,7 @@
             })
         } catch (error) {
             return NextResponse.json({
-                message: "Internal server error"
+                message: "Internal server error",error
             },{
                 status: 500
             })

@@ -17,7 +17,7 @@ import { CircleCheck } from "lucide-react"
 
     async function handleSubmit () {
         try {
-            const response = await axios.post("/api/auth/signup",{
+            await axios.post("/api/auth/signup",{
                 username,
                 email,
                 password

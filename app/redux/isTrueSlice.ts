@@ -10,7 +10,7 @@ interface Question {
 
 interface IsTrueState {
   value: boolean;
-  testId: string | null;
+  testId: number | null;
   questions: Question[];
 }
 
@@ -26,7 +26,7 @@ const isTrueSlice = createSlice({
     toggleIsTrue: (state) => {
       state.value = !state.value;
     },
-    setTestId: (state,action: PayloadAction<string>)=> {
+    setTestId: (state,action: PayloadAction<number>)=> {
       state.testId = action.payload;
     },
     setQuestions: (state, action: PayloadAction<Question[]>) => {

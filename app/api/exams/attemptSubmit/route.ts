@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/lib/prismadb";
+
+type Answer = {
+    questionId: number;
+    selectedOption: number;
+  };  
+
 export async function POST (req:NextRequest) {
     try {
         const { userId, testId, answers } = await req.json();
@@ -11,7 +17,7 @@ export async function POST (req:NextRequest) {
 
         let score = 0;
         questions.forEach((question) => {
-            const userAnswer = answers.find((ans:any) => ans.questionId === question.id)
+            const userAnswer = answers.find((ans:Answer) => ans.questionId === question.id)
             if(userAnswer && userAnswer.selectedOption === question.correctOption) {
                 score++;
             }

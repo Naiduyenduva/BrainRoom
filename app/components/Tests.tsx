@@ -20,9 +20,13 @@ interface TestProps {
     description: string
 }
 
+interface TestCardProps {
+  test: TestProps;
+  getDifficultyColor: (difficulty:string) => string;
+}
+
  const Tests = () => {
     const [ tests, setTests ] = useState<TestProps[]>([]);
-    const [ err, setErr ] = useState("");
 
     const getDifficultyColor = (difficulty:string) => {
         switch (difficulty) {
@@ -43,7 +47,7 @@ interface TestProps {
             const Testdata = await response.data;
             setTests(Testdata.tests)
         } catch (error) {
-          setErr(err)
+          console.log(error)
         }
     }
 
@@ -66,17 +70,17 @@ interface TestProps {
     )
 }
 
-  function TestCard({ test, getDifficultyColor }:any) {
+  function TestCard({ test, getDifficultyColor }:TestCardProps) {
     const dispatch = useDispatch();
     const router = useRouter();
     const {data: session} = useSession();
     const userId = session?.user.id
     const {toast} = useToast();
     
-    async function handleAttempt(id:string) {
+    async function handleAttempt(id:number) {
       try {
         const testId = id
-        const response = await axios.post("/api/exams/attemptsStart",{
+        await axios.post("/api/exams/attemptsStart",{
           userId,
           testId
         })

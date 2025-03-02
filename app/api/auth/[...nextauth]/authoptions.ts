@@ -44,8 +44,8 @@ export const authOptions = {
               email: { label: "email", type: "email", placeholder: "jsmith@gmail.com" },
               password: { label: "Password", type: "password" }
             },
-            //@ts-ignore
-            async authorize(credentials, req) {
+            // @ts-expect-error
+            async authorize(credentials) {
               
               if (!credentials?.email || !credentials?.password) {
                 throw new Error('Username and password are required');

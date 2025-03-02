@@ -6,6 +6,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress"
 import { Calculator } from "lucide-react"
 
+interface Result {
+  score: number;
+  totalQuestions: number;
+  test: {
+    title: string;
+  };
+}
+
+
 const UserResults = () => {
   const {data: session} = useSession();
   const [resultsData, setResultsData] = useState([]);
@@ -36,7 +45,7 @@ const UserResults = () => {
   )
 }
 
-function ResultCard ({data}:any) {
+function ResultCard ({data}:{ data: Result[] }) {
   if (!data || data.length === 0) return <p>No results found</p>;
 
   const result = data[0];

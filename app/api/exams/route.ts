@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import prisma from "@/app/lib/prismadb";
 
 export async function GET () {
@@ -7,6 +7,6 @@ export async function GET () {
 
         return NextResponse.json({ message: "All tests",tests },{ status: 200 })
     } catch (error) {
-        return NextResponse.json({ message: "Internal server error" },{ status: 500 });
+        return NextResponse.json({ message: "Internal server error",error },{ status: 500 });
     }
 }

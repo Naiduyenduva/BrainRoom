@@ -24,7 +24,7 @@ export async function POST (req: NextRequest) {
                 totalQuestions
             }
         })
-        return NextResponse.json({ message: "attempt started "} ,{ status: 201 })
+        return NextResponse.json({ message: "attempt started",attempt} ,{ status: 201 })
     } catch (error) {
         return NextResponse.json ({ message: "Internal server error",error}, { status: 500 })
     }

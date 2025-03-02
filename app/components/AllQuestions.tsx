@@ -6,10 +6,11 @@ import QuestionCard from "./QuestionCard";
 import { setQuestions } from "../redux/isTrueSlice";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { RootState } from "../redux/store";
 
 const AllQuestions = () => {
-    const testId = useAppSelector((state:any) => state.isTrue.testId);
-    const questionsArray = useAppSelector((state:any) => state.isTrue.questions);
+    const testId = useAppSelector((state:RootState) => state.isTrue.testId);
+    const questionsArray = useAppSelector((state:RootState) => state.isTrue.questions);
     const [answers, setAnswers] = useState<{questionId:string,selectedOption:number}[]>([]);
     const dispatch = useAppDispatch();
     const [ count, setCount ] = useState();
@@ -34,7 +35,7 @@ const AllQuestions = () => {
 
     useEffect(()=> {
         handleQuestions();
-    },[testId])
+    },[])
 
     function handleanswer (questionId:string, selectedOption:number) {
         setAnswers((prevAnswers)=> {
@@ -54,7 +55,7 @@ const AllQuestions = () => {
 
     async function handleSubmit () {
         try {
-            const response = await axios.post("/api/exams/attemptSubmit",{
+             await axios.post("/api/exams/attemptSubmit",{
                 userId,
                 testId,
                 answers

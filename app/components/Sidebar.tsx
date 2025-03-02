@@ -5,9 +5,10 @@ import { Award } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { setIsTrue } from "../redux/isTrueSlice";
+import { RootState } from '../redux/store';
 
 const Sidebar = () => {
-  const isTrue = useAppSelector((state:any) => state.isTrue.value);
+  const isTrue = useAppSelector((state:RootState) => state.isTrue.value);
   const dispatch = useAppDispatch();
   const router = useRouter();
 
