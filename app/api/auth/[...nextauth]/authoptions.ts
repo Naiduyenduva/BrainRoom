@@ -44,7 +44,7 @@ export const authOptions = {
               email: { label: "email", type: "email", placeholder: "jsmith@gmail.com" },
               password: { label: "Password", type: "password" }
             },
-            // @ts-expect-error
+            // @ts-expect-error: Type mismatch between credentials and expected type in NextAuth
             async authorize(credentials) {
               
               if (!credentials?.email || !credentials?.password) {

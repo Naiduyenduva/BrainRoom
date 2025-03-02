@@ -1,6 +1,6 @@
 "use client"
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
@@ -14,14 +14,16 @@ interface Result {
   };
 }
 
-
 const UserResults = () => {
   const {data: session} = useSession();
   const [resultsData, setResultsData] = useState([]);
 
-  async function handleResults () {
+   const handleResults = useCallback(async () => {
     try {
-      const userId = session?.user.id;
+        const userId = session?.user.id;
+        if(!userId) {
+          return
+        }
         const response = await axios.post("/api/exams/results",{
           userId
         })  
@@ -30,11 +32,11 @@ const UserResults = () => {
     } catch (error) {
       console.log(error)
     }
-  }
+  },[session?.user.id])
 
   useEffect(()=> {
     handleResults();
-  },[])
+  },[handleResults])
 
   return (
     <div className='p-10'>

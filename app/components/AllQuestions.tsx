@@ -7,6 +7,7 @@ import { setQuestions } from "../redux/isTrueSlice";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { RootState } from "../redux/store";
+import { useCallback } from "react";
 
 const AllQuestions = () => {
     const testId = useAppSelector((state:RootState) => state.isTrue.testId);
@@ -19,7 +20,7 @@ const AllQuestions = () => {
     const router = useRouter();
 
     
-    async function handleQuestions () {
+    const handleQuestions = useCallback(async () => {
         try {
             const response = await axios.post("/api/exams/allmcqs",{
                 testId,
@@ -31,11 +32,11 @@ const AllQuestions = () => {
         } catch (error) {
             console.log(error)
         }
-    }
+    },[dispatch,testId])
 
     useEffect(()=> {
         handleQuestions();
-    },[])
+    },[handleQuestions])
 
     function handleanswer (questionId:string, selectedOption:number) {
         setAnswers((prevAnswers)=> {

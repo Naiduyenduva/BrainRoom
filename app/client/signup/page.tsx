@@ -1,9 +1,11 @@
-import Signup from '../../components/Signup'
+import Signin from "@/app/components/Signin"
 
-export default function () {
-    return (
-        <div>
-            <Signup />
-        </div>
-    )
+const page = () => {
+  return (
+    <div>
+        <Signin />
+    </div>
+  )
 }
+
+export default page

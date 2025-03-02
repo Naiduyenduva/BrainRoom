@@ -9,7 +9,7 @@ const Signin = () => {
     const [ password, setPassword ] = useState("");
 
     const onSubmit = async () => {
-        const result = await signIn("credentials",{
+        await signIn("credentials",{
             email: email,
             password: password,
             redirect: true,
