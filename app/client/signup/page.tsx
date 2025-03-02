@@ -1,9 +1,8 @@
-import Signin from "@/app/components/Signin"
-
+import SignUp from "@/app/components/Signup"
 const page = () => {
   return (
     <div>
-        <Signin />
+        <SignUp />
     </div>
   )
 }
