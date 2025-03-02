@@ -9,7 +9,6 @@ import { setIsTrue } from "../redux/isTrueSlice";
 const Sidebar = () => {
   const isTrue = useAppSelector((state:any) => state.isTrue.value);
   const dispatch = useAppDispatch();
-
   const router = useRouter();
 
   function handlehome () {

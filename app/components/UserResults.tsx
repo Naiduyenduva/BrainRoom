@@ -10,7 +10,6 @@ const UserResults = () => {
   const {data: session} = useSession();
   const [resultsData, setResultsData] = useState([]);
 
-  
   async function handleResults () {
     try {
       const userId = session?.user.id;
@@ -18,15 +17,16 @@ const UserResults = () => {
           userId
         })  
         const results = response.data.results;
-        console.log(results);
         setResultsData(results);
     } catch (error) {
       console.log(error)
     }
   }
+
   useEffect(()=> {
     handleResults();
   },[])
+
   return (
     <div className='p-10'>
       <div className='grid grid-cols-3 gap-5'>
@@ -41,7 +41,6 @@ function ResultCard ({data}:any) {
 
   const result = data[0];
   const title = result?.test?.title;
-  console.log(title)
 
   const percentage = ((result.score) / (result.totalQuestions)) * 100
   return (
@@ -64,7 +63,6 @@ function ResultCard ({data}:any) {
             </div>
             <Progress value={percentage} color='bg-white' className="h-2" />
           </div>
-
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-muted/10 rounded-lg p-3">
               <div className="text-3xl font-bold">{result.totalQuestions}</div>
@@ -75,7 +73,6 @@ function ResultCard ({data}:any) {
               <div className="text-xs text-muted-foreground mt-1">Correct Answers</div>
             </div>
           </div>
-
           <div className="pt-2">
             <div className="flex items-center justify-between">
               <div className="text-sm text-gray-200">Accuracy</div>
@@ -87,16 +84,5 @@ function ResultCard ({data}:any) {
     </Card>
   )
 }
-
-
-
-
-
-
-
-
-
-
-
 
 export default UserResults;

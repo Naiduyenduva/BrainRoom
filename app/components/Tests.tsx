@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import { useDispatch } from "react-redux";
 import { setTestId } from "../redux/isTrueSlice";
 import { useRouter } from "next/navigation";
-import { useAppSelector } from "../redux/store";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -22,7 +21,6 @@ interface TestProps {
  const Tests = () => {
     const [ tests, setTests ] = useState<TestProps[]>([]);
     const [ err, setErr ] = useState("");
-    
 
     const getDifficultyColor = (difficulty:string) => {
         switch (difficulty) {
@@ -50,15 +48,12 @@ interface TestProps {
     useEffect(()=> {
         handleTests();
     },[])
-    
-   
 
     return (
         <div className="p-10 h-screen">
             <h1 className="mb-5 font-bold text-3xl">Available Tests</h1>
             <h1 className="mb-5 text-xl text-gray-400">Choose from our selection of professional exams to test and certify your skills.</h1>
             <div className="flex flex-wrap gap-10">
-
             {
                 tests.map((test)=> (
                     <TestCard key={test.id} test={test} getDifficultyColor={getDifficultyColor} />
@@ -69,33 +64,27 @@ interface TestProps {
     )
 }
 
-
-function TestCard({ test, getDifficultyColor }:any) {
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const {data: session} = useSession();
-  const userId = session?.user.id
-  const {toast} = useToast();
-
-
-  function handletestid (id:string) {
-  }
-  
-  async function handleAttempt(id:string) {
-    try {
-      const testId = id
-      const response = await axios.post("http://localhost:3000/api/exams/attemptsStart",{
-        userId,
-        testId
-      })
-      dispatch(setTestId(id))
-      console.log(response)
-      toast({title:"attempt started"})
-      router.push("/client/mcq")
-    } catch (error) {
-      console.log(error)
+  function TestCard({ test, getDifficultyColor }:any) {
+    const dispatch = useDispatch();
+    const router = useRouter();
+    const {data: session} = useSession();
+    const userId = session?.user.id
+    const {toast} = useToast();
+    
+    async function handleAttempt(id:string) {
+      try {
+        const testId = id
+        const response = await axios.post("http://localhost:3000/api/exams/attemptsStart",{
+          userId,
+          testId
+        })
+        dispatch(setTestId(id))
+        toast({title:"attempt started"})
+        router.push("/client/mcq")
+      } catch (error) {
+        console.log(error)
+      }
     }
-  }
     return (
       <Card className="h-full flex flex-col transition-all duration-200 hover:shadow-md bg-black border border-purple-600">
         <CardHeader>
@@ -119,6 +108,5 @@ function TestCard({ test, getDifficultyColor }:any) {
       </Card>
     )
   }
-  
 
 export default Tests;

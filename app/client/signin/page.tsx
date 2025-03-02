@@ -5,17 +5,18 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button";
 
 const page = () => {
-    const [ email, setEmail ] = useState("");
-    const [ password, setPassword ] = useState("");
+  const [ email, setEmail ] = useState("");
+  const [ password, setPassword ] = useState("");
 
-    const onSubmit = async () => {
-        const result = await signIn("credentials",{
-            email: email,
-            password: password,
-            redirect: true,
-            callbackUrl: "/client/dashboard"
-        })
-    }
+  const onSubmit = async () => {
+      const result = await signIn("credentials",{
+          email: email,
+          password: password,
+          redirect: true,
+          callbackUrl: "/client/dashboard"
+      })
+  }
+
   return (
     <div className="grid gap-2 p-5 justify-center pt-40">
         <h1 className="text-center text-2xl text-hite">Signin</h1>

@@ -3,13 +3,8 @@ import Sidebar from "./Sidebar";
 import Tests from "./Tests";
 import UserResults from "./UserResults";
 import { useAppSelector } from "../redux/store";
-import { useSession } from "next-auth/react";
-
-
 
 const Dashboard = () => {
-    const {data: session} = useSession();
-    console.log(session?.user.id)
     const isTrue = useAppSelector((state:any) => state.isTrue.value);
     return (
         <div className="flex h-screen">

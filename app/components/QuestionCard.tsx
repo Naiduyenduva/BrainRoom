@@ -27,9 +27,8 @@ export default function QuestionCard({
   timeRemaining = 3600, // Default: 1 hour in seconds
 }: QuestionCardProps) {
   const [remainingTime, setRemainingTime] = useState(timeRemaining)
-  const [page, setPage] = useState<number>(0) // ✅ 0-based indexing
-  const [selectedAnswers, setSelectedAnswers] = useState<{ [key: string]: number }>({}); // Store answers
-
+  const [page, setPage] = useState<number>(0)
+  const [selectedAnswers, setSelectedAnswers] = useState<{ [key: string]: number }>({});
 
   useEffect(() => {
     const timer = setInterval(() => {

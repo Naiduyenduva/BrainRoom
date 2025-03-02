@@ -6,14 +6,13 @@ import { useRouter } from "next/navigation"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 
-export default function SignUp () {
+  function SignUp () {
     const {toast} = useToast();
     const [username, setUsername] = useState("");
     const [password, setPaassword] = useState("");
     const [email, setEmail] = useState("");
     const [success,setSuccess] = useState(false);
     const router = useRouter();
-
 
     async function handleSubmit () {
         try {
@@ -27,9 +26,7 @@ export default function SignUp () {
                 className: "text-green-500"
               })
             setSuccess(true)
-            console.log(response.data)
             router.push("/api/auth/signin");
-            
         } catch (error) {
             console.log(error)
         }
@@ -43,9 +40,10 @@ export default function SignUp () {
                 <Input placeholder="username" className="w-96" onChange={(e)=> {setUsername(e.target.value)}} />
                 <Input placeholder="email" onChange={(e)=> {setEmail(e.target.value)}} />
                 <Input placeholder="password" onChange={(e)=> {setPaassword(e.target.value)}} />
-                <Button className="bg-blue-700 p-2 rounded-lg" onClick={handleSubmit}>Signin</Button>
+                <Button className="bg-purple-600 p-2 rounded-lg" onClick={handleSubmit}>Signin</Button>
             </div>
         
         </div>
     )
 }
+export default SignUp;

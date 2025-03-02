@@ -8,6 +8,7 @@ export async function POST (req:NextRequest) {
         if(!questions) {
             return NextResponse.json({message:"no questions"},{status:404})
         }
+
         let score = 0;
         questions.forEach((question) => {
             const userAnswer = answers.find((ans:any) => ans.questionId === question.id)
@@ -25,7 +26,6 @@ export async function POST (req:NextRequest) {
             },
         });
         return NextResponse.json({ message: "Test submitted",score,attempt:updatedAttempt },{ status: 200 })
-
     } catch (error) {
         return NextResponse.json({ message: "Internal server error", error },{ status: 500 });
     }

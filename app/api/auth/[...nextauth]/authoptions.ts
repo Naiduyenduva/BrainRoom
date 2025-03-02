@@ -7,7 +7,6 @@ import { DefaultSession, DefaultUser } from "next-auth";
 import { User } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
 
-// Extend the User type
 declare module "next-auth" {
   interface Session {
     user: DefaultSession["user"] & {
@@ -33,7 +32,7 @@ interface UserType {
   id: string;
   email: string;
   username: string;
-  password?: string; // Password should not be exposed in session
+  password?: string;
 }
 
 export const authOptions = {
@@ -87,7 +86,7 @@ export const authOptions = {
     callbacks: {
       async jwt({ token, user }: {token: JWT; user?: User | AdapterUser | undefined}): Promise<JWT>{
         if (user) {
-          token.id = user.id; // Store user ID in token
+          token.id = user.id;
           token.username = (user as UserType).username; 
         }
         return token;
@@ -95,7 +94,7 @@ export const authOptions = {
   
       async session({ session, token }:{session: Session; token: JWT}): Promise<Session> {
         if (session.user) {
-          session.user.id = token.id; // Attach user ID to session
+          session.user.id = token.id;
           session.user.username = token.username;
         }
         return session;

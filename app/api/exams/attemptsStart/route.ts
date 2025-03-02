@@ -9,9 +9,11 @@ export async function POST (req: NextRequest) {
                 userId_testId: {userId,testId}
             },
         });
+
         if(existingAttempt) {
             return NextResponse.json({ message: "User already attempted the test" },{ status: 200 });
         }
+
         const totalQuestions = await prisma.mCQ.count({ where: { testId }});
 
         const attempt = await prisma.attempt.create({
@@ -22,7 +24,6 @@ export async function POST (req: NextRequest) {
                 totalQuestions
             }
         })
-
         return NextResponse.json({ message: "attempt started "} ,{ status: 201 })
     } catch (error) {
         return NextResponse.json ({ message: "Internal server error",error}, { status: 500 })

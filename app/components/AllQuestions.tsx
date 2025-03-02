@@ -1,5 +1,4 @@
 "use client"
-
 import axios from "axios"
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { useEffect, useState } from "react";
@@ -32,10 +31,10 @@ const AllQuestions = () => {
             console.log(error)
         }
     }
+
     useEffect(()=> {
         handleQuestions();
     },[testId])
-
 
     function handleanswer (questionId:string, selectedOption:number) {
         setAnswers((prevAnswers)=> {
@@ -52,20 +51,19 @@ const AllQuestions = () => {
               }
             })
         }
-        console.log(answers)
 
-        async function handleSubmit () {
-            try {
-                const response = await axios.post("http://localhost:3000/api/exams/attemptSubmit",{
-                    userId,
-                    testId,
-                    answers
-                })
-                router.push("/client/result")
-            } catch (error) {
-                console.log(error)
-            }
+    async function handleSubmit () {
+        try {
+            const response = await axios.post("http://localhost:3000/api/exams/attemptSubmit",{
+                userId,
+                testId,
+                answers
+            })
+            router.push("/client/result")
+        } catch (error) {
+            console.log(error)
         }
+    }
 
   return (
     <div>

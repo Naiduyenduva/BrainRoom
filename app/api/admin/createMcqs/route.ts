@@ -10,9 +10,11 @@ export async function POST (req:NextRequest) {
                 id: testId
             },
         });
+
         if(!test) {
             return NextResponse.json({ message: "Test not found" },{ status: 404 });
         }
+
         const newMCQ = await prisma.mCQ.create({
             data: {
                 testId,
@@ -23,7 +25,6 @@ export async function POST (req:NextRequest) {
         });
 
         return NextResponse.json({ message: "MCQ Added",newMCQ },{ status: 201 });
-
     } catch (error) {
         return NextResponse.json({ message: "Internal server error",error }, { status: 500});
     }

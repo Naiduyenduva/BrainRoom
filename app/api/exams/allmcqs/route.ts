@@ -9,6 +9,7 @@ export async function POST (req: NextRequest) {
                 testId: testId
             }
         })
+        
         const count = await prisma.mCQ.count({
             where: {
                 testId: testId
