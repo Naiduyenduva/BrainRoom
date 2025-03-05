@@ -8,7 +8,7 @@ import { Calculator } from "lucide-react"
 import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
 import { setIsTrue } from '../redux/isTrueSlice'
-import { useDispatch, UseDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 interface Result {
   score: number;
@@ -19,7 +19,7 @@ interface Result {
 }
 
 const UserResults = () => {
-  const {data: session, status} = useSession();
+  const {data: session} = useSession();
   const [resultsData, setResultsData] = useState([]);
   const {toast} = useToast();
   const router = useRouter();
@@ -45,7 +45,7 @@ const UserResults = () => {
     } catch (error) {
       console.log(error)
     }
-  },[session?.user?.id])
+  },[session?.user?.id, dispatch, toast, router])
 
   useEffect(()=> {
     handleResults();
