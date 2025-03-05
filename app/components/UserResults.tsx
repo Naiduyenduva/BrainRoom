@@ -5,6 +5,10 @@ import { useSession } from 'next-auth/react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Calculator } from "lucide-react"
+import { useToast } from '@/hooks/use-toast'
+import { useRouter } from 'next/navigation'
+import { setIsTrue } from '../redux/isTrueSlice'
+import { useDispatch, UseDispatch } from 'react-redux'
 
 interface Result {
   score: number;
@@ -15,12 +19,21 @@ interface Result {
 }
 
 const UserResults = () => {
-  const {data: session} = useSession();
+  const {data: session, status} = useSession();
   const [resultsData, setResultsData] = useState([]);
+  const {toast} = useToast();
+  const router = useRouter();
+  const dispatch = useDispatch();
 
    const handleResults = useCallback(async () => {
+      if(!session?.user?.id) {
+        toast({title:"Please signin to see results"})
+        dispatch(setIsTrue(true))
+        router.push("/")
+        return;
+      }
     try {
-        const userId = session?.user.id;
+        const userId = session?.user?.id;
         if(!userId) {
           return
         }
@@ -32,7 +45,7 @@ const UserResults = () => {
     } catch (error) {
       console.log(error)
     }
-  },[session?.user.id])
+  },[session?.user?.id])
 
   useEffect(()=> {
     handleResults();

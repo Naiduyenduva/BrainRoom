@@ -78,6 +78,11 @@ interface TestCardProps {
     const {toast} = useToast();
     
     async function handleAttempt(id:number) {
+      if(!session?.user.id) {
+        toast({title: "Please signin to start test"})
+        router.push("/")
+        return;
+      }
       try {
         const testId = id
         await axios.post("/api/exams/attemptsStart",{
