@@ -53,7 +53,7 @@ export const authOptions = {
 
               const isUserExists = await prisma.user.findFirst({
                 where: {
-                  email: credentials?.email
+                  email: credentials?.email.toLowerCase()
                 },
                 select: {
                   id: true,
@@ -61,9 +61,10 @@ export const authOptions = {
                   username: true
                 },
               });
+              console.log(isUserExists)
 
               if (!isUserExists) {
-                throw new Error('you credentials are wrong')
+                throw new Error('your credentials are wrong')
               } 
 
               const isPasswordCorrect = await bcrypt.compare(credentials?.password,isUserExists?.password)
