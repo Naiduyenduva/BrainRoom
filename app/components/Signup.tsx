@@ -16,6 +16,10 @@ import { CircleCheck } from "lucide-react"
     const router = useRouter();
 
     async function handleSubmit () {
+        if(username =="" && email =="" && password =="") {
+            toast({title: "enter something here",variant:"destructive"})
+            return;
+        }
         try {
             await axios.post("/api/auth/signup",{
                 username,

@@ -12,6 +12,10 @@ const Signin = () => {
     const [loading, setLoading] = useState(false);
 
     const onSubmit = async () => {
+        if(email == "" && password == "") {
+            toast({title: "Enter credentials to login",variant:"destructive"})
+            return;
+        }
         setLoading(true);
         const response = await signIn("credentials", {
             email,
